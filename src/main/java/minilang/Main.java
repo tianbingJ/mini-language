@@ -1,4 +1,4 @@
-package org.example;
+package minilang;
 
 /**
  * @author tianbing <tianbing@kuaishou.com>

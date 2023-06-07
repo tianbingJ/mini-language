@@ -1,0 +1,61 @@
+
+
+program -> declaration* EOF
+
+declaration -> funcDecl| varDecl | statement;
+
+funcDecl -> "fun" function;
+
+function -> IDENTIFIER "(" parameters? ")" block;
+
+parameters -> IDENTIFIER (, IDENTIFIER) *;
+
+varDecl -> "var" IDENTIFIER ("=" expression)? ";";
+
+statement -> exprStmt  | printStmt | block | ifStmt | whileStmt | forStmt | returnStmt;
+
+returnStmt -> "return" expression ? ";";
+
+whileStmt -> "while" "(" expression ")" statement;
+
+ifStmt -> "if" "(" expression ")" statement
+            (else statement) ?;
+
+forStmt -> "for" "(" ( varDel | exprStmt | ";" )
+            expression? ";"
+            expression? ")" statement;
+
+block -> "{" declaration*  "}"
+
+exprStmt -> expression ';' ;
+
+printStmt -> print expression;
+
+expression -> assignment ;
+
+assignment -> IDENTIFIER "=" assignment
+                | logical_or;
+
+logical_or -> logic_and (or logic_and) *;
+
+logic_and -> equality(and equality) *;
+
+equality -> comparison (( "!=" | "==") comparison) *
+
+comparison -> term ((">" | "<" | ">= " | "<=") term) *
+
+term -> factor (("+" | "-" factor)) *
+
+//递归match factor，可以match一系列乘法或者除法，左结合性。
+factor -> unary (("/" | "*")unary) *;
+
+unary -> ("!" | "-") unary
+    | call;
+
+call -> primary ("(" arguments?")")*;
+
+arguments -> expression ( "," expression)*;
+
+primary -> NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER
+
+
