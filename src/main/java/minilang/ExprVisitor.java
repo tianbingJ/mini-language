@@ -13,5 +13,4 @@ public interface ExprVisitor {
     Object visitLogicalExpr(LogicalExpr expr);
     Object visitUnaryExpr(UnaryExpr expr);
     Object visitVariableExpr(VariableExpr expr);
-
 }

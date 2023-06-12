@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import minilang.BinaryExpr;
 import minilang.Expr;
+import minilang.Interpreter;
 import minilang.Lexer;
 import minilang.LiteralExpr;
 import minilang.Parser;
@@ -37,12 +38,65 @@ public class ParserTest {
         Assertions.assertTrue(binary.getRight()instanceof BinaryExpr);
     }
 
-
-
     private Expr sourceToExpr(String source) {
         Lexer scanner = new Lexer(source);
         Parser parser = new Parser(scanner.scanTokens());
         return parser.expression();
     }
 
+    @Test
+    public void testWhile() {
+        String source = "var sum = 0;" +
+                "var x = 1;" +
+                "while (x < 10) {" +
+                "sum = sum + x;" +
+                "x = x + 1;" +
+                "}" +
+                "print sum;"
+                ;
+        Lexer lexer = new Lexer(source);
+        List<Token> tokenList = lexer.scanTokens();
+
+        Parser parser = new Parser(tokenList);
+        List<Stmt> stmts = parser.parse();
+
+        Interpreter interpreter = new Interpreter();
+        interpreter.interpret(stmts);
+    }
+
+    @Test
+    public void  testScope() {
+
+//        var x = 1;
+//        var execute = x < 1000;
+//        var sum = 0;
+//        while (execute) {
+//            sum = sum + x;
+//            x = x + 1;
+//            execute = x < 1000;
+//        }
+//
+//        print sum;
+
+        String source ="        var x = 1;\n" +
+                "        var execute = x < 1000;\n" +
+                "        var sum = 0;\n" +
+                "        while (execute) {\n" +
+                "            sum = sum + x;\n" +
+                "            x = x + 1;\n" +
+                "            execute = x < 1000;\n" +
+                "        }\n" +
+                "\n" +
+                "        print sum;"
+                ;
+        Lexer lexer = new Lexer(source);
+        List<Token> tokenList = lexer.scanTokens();
+
+        Parser parser = new Parser(tokenList);
+        List<Stmt> stmts = parser.parse();
+
+        Interpreter interpreter = new Interpreter();
+        interpreter.interpret(stmts);
+
+    }
 }

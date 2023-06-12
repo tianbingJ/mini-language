@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class WhileStmt implements Stmt {
 
-    private Expr expr;
+    private Expr condition;
 
     private Stmt body;
 
-    WhileStmt(Expr expr, Stmt body) {
-        this.expr = expr;
+    WhileStmt(Expr condition, Stmt body) {
+        this.condition = condition;
         this.body = body;
     }
 

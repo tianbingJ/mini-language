@@ -81,20 +81,14 @@ public class Parser {
     }
 
     private Stmt declaration() {
-        try {
-            if (match(TokenType.VAR)) {
-                return varDeclaration();
-            }
-            if (match(TokenType.FUN)) {
-                return function("function");
-            }
-
-            return statement();
-        } catch (ParseError error) {
-            synchronize();
-            return null;
+        if (match(TokenType.VAR)) {
+            return varDeclaration();
         }
-    }
+        if (match(TokenType.FUN)) {
+            return function("function");
+        }
+        return statement();
+}
 
     private FunctionStmt function(String kind) {
         Token name = consume(TokenType.IDENTIFIER, "Expect " + kind + " name.");
@@ -407,7 +401,7 @@ public class Parser {
     }
 
     private ParseError error(Token token, String message) {
-        return new ParseError(message + "around " + token.lexeme +  " at line " + token.line + " column:" + token.column);
+        throw new ParseError(message + "   around " + token.lexeme + " at line " + token.line + " column:" + token.column);
     }
 
     private void synchronize() {

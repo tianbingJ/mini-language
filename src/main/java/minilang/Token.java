@@ -24,6 +24,6 @@ public class Token {
     }
 
     public String toString() {
-        return type + " " + lexeme + " " + literal;
+        return String.format("(%s, %s, %d, %d)", type, lexeme, line, column);
     }
 }
